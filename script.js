@@ -1,4 +1,6 @@
 let modalQT = 1;
+let cart = [];
+let modalKey = 0;
 
 const c = (el) => document.querySelector(el); // função
 const cs = (el) => document.querySelectorAll(el);
@@ -21,6 +23,8 @@ pizzaJson.map((item, index) => {
 
         let key = e.target.closest('.pizza-item').getAttribute('data-key');
         modalQT = 1;
+
+        modalKey = key;
         
         let pizzaModal = c('.pizzaWindowArea .pizzaInfo').cloneNode(true);
         //informações no modal
@@ -62,26 +66,40 @@ function closeModal() {
         c('.pizzaWindowArea').style.display = 'none';
     }, 200);
 }
-
+//fecha o modal
 cs('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item) => {
     item.addEventListener('click', closeModal);
 })
 
+//botão de menos
 c('.pizzaInfo--qtmenos').addEventListener('click', () => {
     if(modalQT > 1){
         modalQT--;
         c('.pizzaInfo--qt').innerHTML = modalQT;
     }
 });
-
+//botão de mais
 c('.pizzaInfo--qtmais').addEventListener('click', () => {
     modalQT++;
     c('.pizzaInfo--qt').innerHTML = modalQT;
 });
-
+//seleciona o tamanho
 cs('.pizzaInfo--size').forEach((size, sizeIndex) => {
     size.addEventListener('click', (e) => {
         c('.pizzaInfo--size.selected').classList.remove('selected');
         size.classList.add('selected');
     });
+});
+
+//adicionar ao carrinho
+c('.pizzaInfo--addButton').addEventListener('click', () => {
+    let size = parseInt(c('.pizzaInfo--size.selected').getAttribute('data-key'));
+
+    cart.push({
+        id: pizzaJson[modalKey].id,
+        size,
+        qt: modalQT
+    });
+
+    closeModal();
 });
