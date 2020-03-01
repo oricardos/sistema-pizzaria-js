@@ -89,13 +89,16 @@ cs('.pizzaInfo--size').forEach((size, sizeIndex) => {
     size.addEventListener('click', (e) => {
         c('.pizzaInfo--size.selected').classList.remove('selected');
         size.classList.add('selected');
-        if(sizeIndex == 0){
-            c('.pizzaInfo--actualPrice').innerHTML = `R$ ${(pizzaJson[key].price - 5).toFixed(2) } `;
-        } else if (sizeIndex == 1){
-            c('.pizzaInfo--actualPrice').innerHTML = `R$ ${(pizzaJson[key].price - 3).toFixed(2) } `;
-        }else {
-            c('.pizzaInfo--actualPrice').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2) } `;
-        }
+
+            if(sizeIndex == 0){
+                c('.pizzaInfo--actualPrice').innerHTML = `R$ ${(pizzaJson[key].price - 5).toFixed(2) } `;
+            } else if (sizeIndex == 1){
+                c('.pizzaInfo--actualPrice').innerHTML = `R$ ${(pizzaJson[key].price - 3).toFixed(2) } `;
+            }else {
+                c('.pizzaInfo--actualPrice').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2) } `;
+            }
+        
+        
     });    
 });
 
@@ -120,8 +123,21 @@ c('.pizzaInfo--addButton').addEventListener('click', () => {
 
     closeModal();
 });
+
+c('.menu-openner').addEventListener('click', () => {
+    if(cart.length > 0){
+        c('aside').style.left = '0';
+    }
+});
+
 //mostra o carrinho quando seleciona uma pizza
 function updateCart() {
+    c('.menu-openner span').innerHTML = cart.length;
+
+    c('.menu-closer').addEventListener('click', () => {
+        c('aside').style.left = '100vw';
+    });
+
     if(cart.length > 0){
         c('aside').classList.add('show');
         c('.cart').innerHTML = '';
@@ -179,5 +195,6 @@ function updateCart() {
 
     } else {
         c('aside').classList.remove('show');
+        c('aside').style.left = '100vw';
     }
 }
